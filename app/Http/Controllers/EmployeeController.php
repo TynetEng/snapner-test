@@ -44,6 +44,7 @@ class EmployeeController extends Controller
        $confirm   = $request->confirm_password;
        $position   = $request->position;
        $name = $request->name;
+       
       
 
        $inputValues['email'] = $email;
@@ -62,7 +63,7 @@ class EmployeeController extends Controller
                 'email'=> $request->email,
                 'password' => Hash::make($request->password),
                 'position' => $position,
-              
+                'project_id' => 0
             ]);
             return($employee);
 

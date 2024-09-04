@@ -13,15 +13,21 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_id')->constrained()->onDelete('cascade')->nullable();
+            $table->unsignedBigInteger('project_id');
+            // $table->foreignId('project_id')->constrained()->onDelete('cascade')->nullable();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('position');
             $table->string('password');
             $table->softDeletes(); 
             $table->timestamps();
+            $table->foreign('project_id')->references('id')
+                ->on('projects')->onDelete('cascade');
+         
         });
     }
+
+    
 
     /**
      * Reverse the migrations.
