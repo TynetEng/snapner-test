@@ -20,6 +20,7 @@ class ProjectController extends Controller
         return Project::all();
     }
 
+    // To create project
     public function createProject(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -38,11 +39,13 @@ class ProjectController extends Controller
         return response()->json($project, 200);
     }
 
+    // To display Poject created
     public function showProject(Project $project)
     {
         return $project;
     }
 
+    // To update project
     public function updateProject(Request $request, Project $project)
     {
         $validator = Validator::make($request->all(), [
@@ -61,6 +64,7 @@ class ProjectController extends Controller
         return response()->json($project);
     }
 
+    // To delete project
     public function destroyProject(Project $project)
     {
         $project->delete();
@@ -72,6 +76,7 @@ class ProjectController extends Controller
         ],200);
     }
 
+    // Dashboard
     public function dashboard()
     {
         $totalProjects = Project::count();
@@ -87,6 +92,7 @@ class ProjectController extends Controller
         ]);
     }
 
+    // search API
     public function search(Request $request)
     {
         $query = Project::query();

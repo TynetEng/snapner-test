@@ -20,6 +20,7 @@ class EmployeeController extends Controller
         $this->employee = new Employee;
     }
 
+    // Email notification
     public function sendMail($to, $mailData, $which) {
         
         try {
@@ -109,6 +110,7 @@ class EmployeeController extends Controller
         ],200);
     }
 
+    // Employee logout
     public function logoutEmployee(Request $request){
         auth()->guard('employee')->logout();
         $request->session()->invalidate();
@@ -126,6 +128,7 @@ class EmployeeController extends Controller
         return $project->employees;
     }
 
+    // To update employee
     public function updateEmployee(Request $request, Project $project, Employee $employee)
     {
         $validator = Validator::make($request->all(), [
@@ -143,6 +146,7 @@ class EmployeeController extends Controller
         
     }
 
+    // To delete employee
     public function destroyEmployee(Project $project, Employee $employee)
     {
         $employee->delete();
