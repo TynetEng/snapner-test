@@ -43,7 +43,8 @@ class EmployeeController extends Controller
        $password = $request->password;
        $confirm   = $request->confirm_password;
        $position   = $request->position;
-       $name = '';
+       $name = $request->name;
+      
 
        $inputValues['email'] = $email;
        $rules = array('email' => 'unique:employees,email');
@@ -55,12 +56,15 @@ class EmployeeController extends Controller
                 "message" => "Email exists already..",
             ],403);
         }else{
+            
             $employee = $this->employee->create([
                 'name' => $name,
                 'email'=> $request->email,
                 'password' => Hash::make($request->password),
                 'position' => $position,
+              
             ]);
+            return($password);
 
             $employee = $project->employees()->create($request->all());
 
