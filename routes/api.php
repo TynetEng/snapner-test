@@ -23,11 +23,20 @@ use App\Http\Controllers\ProjectController;
 
 // });
 
-Route::post('login', [EmployeeController::class,'loginEmployee']);
-Route::post('register', [EmployeeController::class,'registerEmployee']);
-Route::post('logout', [EmployeeController::class,'logoutEmployeer']);
+Route::group([
+    'prefix'=>'snapnet',
+],
+function()
+    {
+        // LOGIN AND REGISTRATION
+        Route::post('login', [EmployeeController::class,'loginEmployee']);
+        Route::post('register', [EmployeeController::class,'registerEmployee']);
+        Route::post('logout', [EmployeeController::class,'logoutEmployeer']);
+    }
+);
 
-Route::group(['prefix'=>'snapnet', 'middleware' => ['jwt.verify']], function() {
+
+Route::group(['prefix'=>'snapnet',], function() {
 
     Route::post('create-project',[ProjectController::class,'createProject']);
     Route::post('show-project',[ProjectController::class,'showProject']);

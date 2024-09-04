@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Employee;
 use App\Models\Project;
+use Illuminate\Support\Facades\DB;
 use App\Mail\sendMail;
 use App\Mail\ApprovalNotification;
 use Illuminate\Support\Facades\Mail;
@@ -18,6 +19,7 @@ class EmployeeController extends Controller
 
     public function __construct(){
         $this->employee = new Employee;
+        $this->project = new Project;
     }
 
     // Email notification
@@ -44,7 +46,7 @@ class EmployeeController extends Controller
        $confirm   = $request->confirm_password;
        $position   = $request->position;
        $name = $request->name;
-       $validProjectId = 1;
+       $validProjectId = $request->project_id;
       
 
        $inputValues['email'] = $email;
@@ -57,28 +59,37 @@ class EmployeeController extends Controller
                 "message" => "Email exists already..",
             ],403);
         }else{
-            
-            $employee = $this->employee->create([
-                'name' => $name,
-                'email'=> $request->email,
-                'password' => Hash::make($request->password),
-                'position' => $position,
-                'project_id' => $validProjectId,
-            ]);
-            return($employee);
+            $check = $this->project->where('id', $validProjectId)->first();
+           if($check){
 
-            $employee = $project->employees()->create($request->all());
+                $employee = $this->employee->create([
+                    'name' => $name,
+                    'email'=> $request->email,
+                    'password' => Hash::make($request->password),
+                    'position' => $position,
+                    'project_id' => $validProjectId,
+                ]);
+                return($employee);
 
-    
-            Mail::to($employee->email)->send(new WelcomeEmployee($employee));
+                $employee = $project->employees()->create($request->all());
 
-            $response['message'] = "Successful registration";
+        
+                Mail::to($employee->email)->send(new WelcomeEmployee($employee));
+
+                $response['message'] = "Successful registration";
+                    return response()->json([
+                        "success"=>true,
+                        "message"=>$response,
+                        'employee'=>$employee
+                    ],200);
+            }else{
                 return response()->json([
-                    "success"=>true,
-                    "message"=>$response,
-                    'employee'=>$employee
-                ],200);
-        }
+                    "success" => false,
+                    "message" => "Project ID not valid",
+                ], 400);
+            }
+                
+    }
 
     }
 

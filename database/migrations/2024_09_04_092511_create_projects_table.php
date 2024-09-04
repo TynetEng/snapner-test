@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum('status', ['pending', 'in progress', 'completed'])->default('pending');
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->softDeletes(); // For soft deletes
+            $table->softDeletes(); 
             $table->timestamps();
         });
     }

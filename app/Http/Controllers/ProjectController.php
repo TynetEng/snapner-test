@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\project;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Employee;
 use App\Mail\sendMail;
 use App\Mail\ApprovalNotification;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class ProjectController extends Controller
@@ -23,6 +24,9 @@ class ProjectController extends Controller
     // To create project
     public function createProject(Request $request)
     {
+        $employee_token = $request->token;
+        $find_employee = auth("employee")->authenticate($employee_token);
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:projects,name|max:255',
             'description' => 'nullable',
