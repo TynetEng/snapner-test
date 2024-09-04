@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_id')->constrained()->onDelete('cascade');
+            $table->foreignId('project_id')->constrained()->onDelete('cascade')->nullable();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('position');
+            $table->string('password');
             $table->softDeletes(); 
             $table->timestamps();
         });

@@ -64,7 +64,7 @@ class EmployeeController extends Controller
                 'position' => $position,
               
             ]);
-            return($password);
+            return($employee);
 
             $employee = $project->employees()->create($request->all());
 
