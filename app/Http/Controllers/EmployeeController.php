@@ -9,6 +9,7 @@ use App\Models\Project;
 use Illuminate\Support\Facades\DB;
 use App\Mail\sendMail;
 use App\Mail\ApprovalNotification;
+use App\Mail\ProjectCreatedNotification;
 use Illuminate\Support\Facades\Mail;
 use Validator;
 use Illuminate\Support\Facades\Hash;
@@ -60,6 +61,7 @@ class EmployeeController extends Controller
             ],403);
         }else{
             $check = $this->project->where('id', $validProjectId)->first();
+
            if($check){
 
                 $employee = $this->employee->create([
@@ -69,13 +71,8 @@ class EmployeeController extends Controller
                     'position' => $position,
                     'project_id' => $validProjectId,
                 ]);
-                return($employee);
 
-                $employee = $project->employees()->create($request->all());
-
-        
-                Mail::to($employee->email)->send(new WelcomeEmployee($employee));
-
+            
                 $response['message'] = "Successful registration";
                     return response()->json([
                         "success"=>true,

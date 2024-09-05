@@ -21,7 +21,7 @@ return new class extends Migration
             $table->softDeletes(); 
             $table->timestamps();
             $table->foreign('project_id')->references('id')
-                ->on('project')->onDelete('cascade');
+                ->on('projects')->onDelete('cascade');
          
         });
     }
